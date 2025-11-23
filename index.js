@@ -6,15 +6,26 @@ const introScreen = document.getElementById('intro-screen');
 const mainContent = document.getElementById('main-content');
 const weddingDate = new Date('2025-12-12T18:00:00').getTime(); // Data do casamento: 12/12/2025 às 18:00
 
+// --- 1. Lógica da Tela de Entrada ---
 document.querySelector('.btn.primary').addEventListener('click', () => {
-    const videoID = "https://youtu.be/mZ9yZYo9Mmk?si=AsTuRk2LH_VMv5sp"; // Só o ID!
-    
-    const iframe = document.getElementById("yt-iframe");
-    iframe.src = `https://www.youtube.com/embed/mZ9yZYo9Mmk?si=AsTuRk2LH_VMv5sp&autoplay=1&loop=1&playlist=mZ9yZYo9Mmk`;
-    
+    // Necessário para iOS
+    music.pause();
+    music.currentTime = 0;
+    music.muted = false;
+    music.load(); // obrigatório em iOS antes de play()
+
+    music.play()
+        .then(() => console.log("Música tocando no iPhone!"))
+        .catch(err => console.log("Erro ao tocar no iPhone:", err));
+
     hideIntroScreen();
 });
 
+document.querySelector('.btn.secondary').addEventListener('click', () => {
+    music.pause();
+    music.currentTime = 0;
+    hideIntroScreen();
+});
 
 function hideIntroScreen() {
     // Adiciona a classe hidden e garante a transição
