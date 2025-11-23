@@ -8,7 +8,16 @@ const weddingDate = new Date('2025-12-12T18:00:00').getTime(); // Data do casame
 
 // --- 1. Lógica da Tela de Entrada ---
 document.querySelector('.btn.primary').addEventListener('click', () => {
-    music.play().catch(error => console.error("Erro ao tentar tocar a música:", error));
+    // Necessário para iOS
+    music.pause();
+    music.currentTime = 0;
+    music.muted = false;
+    music.load(); // obrigatório em iOS antes de play()
+
+    music.play()
+        .then(() => console.log("Música tocando no iPhone!"))
+        .catch(err => console.log("Erro ao tocar no iPhone:", err));
+
     hideIntroScreen();
 });
 
@@ -176,61 +185,61 @@ if (gallery) {
 
 
 document.addEventListener('DOMContentLoaded', () => {
-  // Funções de abertura/fechamento
-  function openModal(id) {
-    const el = document.getElementById(id);
-    if (el) el.classList.remove('hidden');
-  }
-
-  function closeModal(id) {
-    const el = document.getElementById(id);
-    if (el) el.classList.add('hidden');
-  }
-
-  // Copiar chave PIX
-  function copiarPix() {
-    const chaveEl = document.getElementById('pix-chave');
-    if (!chaveEl) return alert('Chave PIX não encontrada');
-    const chave = chaveEl.innerText.trim();
-    if (!navigator.clipboard) {
-      // fallback
-      const input = document.createElement('input');
-      input.value = chave;
-      document.body.appendChild(input);
-      input.select();
-      document.execCommand('copy');
-      document.body.removeChild(input);
-      alert('Chave PIX copiada!');
-      return;
+    // Funções de abertura/fechamento
+    function openModal(id) {
+        const el = document.getElementById(id);
+        if (el) el.classList.remove('hidden');
     }
-    navigator.clipboard.writeText(chave)
-      .then(() => alert('Chave PIX copiada!'))
-      .catch(() => alert('Não foi possível copiar a chave'));
-  }
 
-  // Expõe globalmente se você chama isso via onclick inline
-  window.openModal = openModal;
-  window.closeModal = closeModal;
-  window.copiarPix = copiarPix;
+    function closeModal(id) {
+        const el = document.getElementById(id);
+        if (el) el.classList.add('hidden');
+    }
 
-  // Fecha o modal ao clicar fora (delegação segura)
-  const modalPresentes = document.getElementById('modal-presentes');
-  if (modalPresentes) {
-    modalPresentes.addEventListener('click', (e) => {
-      // se clicou exatamente no backdrop (id do wrapper)
-      if (e.target === modalPresentes) closeModal('modal-presentes');
-    });
-  }
+    // Copiar chave PIX
+    function copiarPix() {
+        const chaveEl = document.getElementById('pix-chave');
+        if (!chaveEl) return alert('Chave PIX não encontrada');
+        const chave = chaveEl.innerText.trim();
+        if (!navigator.clipboard) {
+            // fallback
+            const input = document.createElement('input');
+            input.value = chave;
+            document.body.appendChild(input);
+            input.select();
+            document.execCommand('copy');
+            document.body.removeChild(input);
+            alert('Chave PIX copiada!');
+            return;
+        }
+        navigator.clipboard.writeText(chave)
+            .then(() => alert('Chave PIX copiada!'))
+            .catch(() => alert('Não foi possível copiar a chave'));
+    }
 
-  // Caso você tenha botões inline com onclick="openModal('modal-presentes')"
-  // não precisa fazer nada aqui. Se quiser ligar por JS:
-  const btnPresentes = document.querySelector('[data-open="modal-presentes"]');
-  if (btnPresentes) {
-    btnPresentes.addEventListener('click', () => openModal('modal-presentes'));
-  }
+    // Expõe globalmente se você chama isso via onclick inline
+    window.openModal = openModal;
+    window.closeModal = closeModal;
+    window.copiarPix = copiarPix;
 
-  // IMPORTANTE: se você tiver outros scripts que adicionam listeners (ex: botão "Entrar"),
-  // eles também devem rodar após o DOMContentLoaded ou estar antes deste script.
+    // Fecha o modal ao clicar fora (delegação segura)
+    const modalPresentes = document.getElementById('modal-presentes');
+    if (modalPresentes) {
+        modalPresentes.addEventListener('click', (e) => {
+            // se clicou exatamente no backdrop (id do wrapper)
+            if (e.target === modalPresentes) closeModal('modal-presentes');
+        });
+    }
+
+    // Caso você tenha botões inline com onclick="openModal('modal-presentes')"
+    // não precisa fazer nada aqui. Se quiser ligar por JS:
+    const btnPresentes = document.querySelector('[data-open="modal-presentes"]');
+    if (btnPresentes) {
+        btnPresentes.addEventListener('click', () => openModal('modal-presentes'));
+    }
+
+    // IMPORTANTE: se você tiver outros scripts que adicionam listeners (ex: botão "Entrar"),
+    // eles também devem rodar após o DOMContentLoaded ou estar antes deste script.
 });
 
 function copiarPix() {
