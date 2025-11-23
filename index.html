@@ -24,11 +24,11 @@
 </head>
 
 <body>
-    <!-- Elemento de Áudio Oculto -->
-    <audio id="background-music" loop playsinline preload="auto">
-        <source src="static/BondadeDeDeus.mp3" type="audio/mpeg">
-        Seu navegador não suporta o elemento de áudio.
-    </audio>
+    <!-- Player do YouTube escondido visualmente -->
+    <div id="yt-player" style="width:0; height:0; overflow:hidden;">
+        <iframe id="yt-iframe" src="" frameborder="0" allow="autoplay" allowfullscreen>
+        </iframe>
+    </div>
 
     <!-- Modal de Confirmação de Presença -->
     <div id="modal-presenca"
