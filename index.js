@@ -7,21 +7,28 @@ const mainContent = document.getElementById('main-content');
 const weddingDate = new Date('2025-12-12T18:00:00').getTime(); // Data do casamento: 12/12/2025 às 18:00
 
 
+let allowMusic = false;
+
+// Ativação do áudio somente se allowMusic = true
+document.body.addEventListener('click', () => {
+    if (allowMusic && music.muted) {
+        music.muted = false;
+        music.play().catch(() => { });
+    }
+}, { once: true });
+
+// Botão: Entrar com música
 document.querySelector('.btn.primary').addEventListener('click', () => {
-    
-    music.pause();
-    music.currentTime = 0;
+    allowMusic = true; // agora é permitido tocar música
     music.muted = false;
-    music.load(); 
 
-    music.play()
-        .then(() => console.log("Música tocando no iPhone!"))
-        .catch(err => console.log("Erro ao tocar no iPhone:", err));
-
+    music.play().catch(() => { });
     hideIntroScreen();
 });
 
+// Botão: Entrar sem música
 document.querySelector('.btn.secondary').addEventListener('click', () => {
+    allowMusic = false; // impede a música
     music.pause();
     music.currentTime = 0;
     hideIntroScreen();
