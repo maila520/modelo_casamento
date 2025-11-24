@@ -6,13 +6,13 @@ const introScreen = document.getElementById('intro-screen');
 const mainContent = document.getElementById('main-content');
 const weddingDate = new Date('2025-12-12T18:00:00').getTime(); // Data do casamento: 12/12/2025 às 18:00
 
-// --- 1. Lógica da Tela de Entrada ---
+
 document.querySelector('.btn.primary').addEventListener('click', () => {
-    // Necessário para iOS
+    
     music.pause();
     music.currentTime = 0;
     music.muted = false;
-    music.load(); // obrigatório em iOS antes de play()
+    music.load(); 
 
     music.play()
         .then(() => console.log("Música tocando no iPhone!"))
